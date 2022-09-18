@@ -7,16 +7,16 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
-	<groupId>com.transol</groupId>
-	<artifactId>transol-user-mgmt</artifactId>
+	<groupId>com.pundir</groupId>
+	<artifactId>user-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>transol-user-mgmt</name>
-	<description>transol-user-mgmt</description>
+	<name>user-management</name>
+	<description>user-management</description>
 	<packaging>war</packaging>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 	</properties>
 
 	<dependencies>

@@ -1,23 +1,17 @@
 package com.pundir.usermanagement.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
+import com.pundir.usermanagement.dto.request.LoginRequest;
 import com.pundir.usermanagement.dto.request.SignupRequest;
 import com.pundir.usermanagement.dto.response.JwtResponse;
-import com.pundir.usermanagement.dto.response.MessageResponse;
 import com.pundir.usermanagement.entities.ERole;
 import com.pundir.usermanagement.entities.Role;
 import com.pundir.usermanagement.entities.User;
+import com.pundir.usermanagement.repository.RoleRepository;
+import com.pundir.usermanagement.repository.UserRepository;
 import com.pundir.usermanagement.security.jwt.JwtUtils;
 import com.pundir.usermanagement.security.services.UserDetailsImpl;
-import com.pundir.usermanagement.dto.request.LoginRequest;
-import com.pundir.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,13 +19,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.pundir.usermanagement.repository.RoleRepository;
+import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -76,13 +70,13 @@ public class AuthController {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+					.body(new ResponseEntity("Error: Username is already taken!", HttpStatus.BAD_GATEWAY));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
+					.body(new ResponseEntity("Error: Email is already in use!", HttpStatus.BAD_GATEWAY));
 		}
 
 		// Create new user's account
@@ -130,6 +124,6 @@ public class AuthController {
 		user.setRoles(roles);
 		userRepository.save(user);
 
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
 	}
 }

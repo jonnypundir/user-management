@@ -1,0 +1,49 @@
+################### WEB SERVER CONFIGURATION ###################
+server:
+  # Server bind address
+  address: "${HTTP_BIND_ADDRESS:0.0.0.0}"
+  # Server bind port
+  port: "${HTTP_BIND_PORT:9090}"
+
+################### SPRING SECURITY CONFIGURATION ##############
+
+################### DATABASE CONFIGURATION #######################
+spring:
+  data:
+    mongodb:
+      database: "user-management"
+      host: "localhost"
+      port: "27017"
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+
+transol.app.jwtSecret: "pundirSecretKey"
+transol.app.jwtExpirationMs: "86400000"
+
+
+# spring CORS configuration
+spring.mvc.cors:
+  mappings:
+    # Intercept path
+    "[/**]":
+      #Comma-separated list of origins to allow. '*' allows all origins. When not set,CORS support is disabled.
+      allowed-origins: "*"
+      #Comma-separated list of methods to allow. '*' allows all methods.
+      allowed-methods: "*"
+      #Comma-separated list of headers to allow in a request. '*' allows all headers.
+      allowed-headers: "*"
+      #How long, in seconds, the response from a pre-flight request can be cached by clients.
+      max-age: "1800"
+      #Set whether credentials are supported. When not set, credentials are not supported.
+      allow-credentials: "false"
+
+logging:
+  level:
+    org:
+      springframework:
+        web=TRACE:

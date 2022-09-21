@@ -1,4 +1,4 @@
-package com.pundir.usermanagement.security.services;
+package com.pundir.usermanagement.security.jwtservices;
 
 import com.pundir.usermanagement.entities.User;
 import com.pundir.usermanagement.repository.UserRepository;

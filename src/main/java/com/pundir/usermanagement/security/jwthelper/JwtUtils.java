@@ -1,15 +1,13 @@
-package com.pundir.usermanagement.security.jwt;
+package com.pundir.usermanagement.security.jwthelper;
 
-import java.util.Date;
-
-import com.pundir.usermanagement.security.services.UserDetailsImpl;
+import com.pundir.usermanagement.security.jwtservices.UserDetailsImpl;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
+import java.util.Date;
 
 @Component
 public class JwtUtils {
@@ -21,9 +19,9 @@ public class JwtUtils {
 	@Value("${transol.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 
-	public String generateJwtToken(Authentication authentication) {
-
-		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+	//public String generateJwtToken(Authentication authentication) {
+	public String generateJwtToken(UserDetailsImpl userPrincipal) {
+		//UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))

@@ -21,26 +21,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UserRepositoryImpl userRepositoryImpl;
 
-	@Value("${non.admin.users:ROLE_ADMIN}")
-	private String nonAdminUsers;
-
-
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
 
 		return UserDetailsImpl.build(user);
-	}
-
-	public List<User> findAll(){
-		return userRepository.findAll();
-	}
-
-	public List<User> findAllNonAdminUser(){
-		List<User> users= userRepositoryImpl.getNonAdminUser(nonAdminUsers);
-		System.out.println("users "+users);
-		return users;
 	}
 }

@@ -23,7 +23,11 @@ public class User {
 
   @NotBlank
   @Size(max = 20)
-  private String username;
+  private String firstName;
+
+  @NotBlank
+  @Size(max = 20)
+  private String lastName;
 
   @NotBlank
   @Size(max = 50)

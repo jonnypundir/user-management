@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception{
         ResponseEntity responseEntity = this.loginService.doLogin(loginRequest);
-        return responseEntity.ok(responseEntity);
+        return ResponseEntity.ok(responseEntity);
     }
 
     @PostMapping("/signup")

@@ -19,10 +19,7 @@ public class JwtUtils {
 	@Value("${transol.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 
-	//public String generateJwtToken(Authentication authentication) {
 	public String generateJwtToken(UserDetailsImpl userPrincipal) {
-		//UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
 				.setIssuedAt(new Date())

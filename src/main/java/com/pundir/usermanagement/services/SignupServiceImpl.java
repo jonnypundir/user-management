@@ -6,6 +6,7 @@ import com.pundir.usermanagement.entities.Role;
 import com.pundir.usermanagement.entities.User;
 import com.pundir.usermanagement.repository.RoleRepository;
 import com.pundir.usermanagement.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class SignupServiceImpl implements SignupService {
     @Autowired
     private PasswordEncoder encoder;
@@ -26,6 +28,7 @@ public class SignupServiceImpl implements SignupService {
 
     @Override
     public User doSignup(SignupRequest signupRequest) {
+        log.info("signup request.{}",signupRequest);
         Optional<Role> role = roleRepository.findByName(ERole.ROLE_USER);
         if(role.isEmpty())
             throw new RuntimeException("Role does not exits");
@@ -39,7 +42,8 @@ public class SignupServiceImpl implements SignupService {
                 .password(encoder.encode(signupRequest.getPassword()))
                 .roles(Set.of(role.get()))
                 .build();
-        userRepository.save(user);
+       user =  userRepository.save(user);
+        log.info("User successfully save.{}", user.getId());
         return user;
     }
 }

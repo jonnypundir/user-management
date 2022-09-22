@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -28,17 +29,16 @@ public class UserController {
     SignupService signupService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception{
-        ResponseEntity responseEntity = this.loginService.doLogin(loginRequest);
-        return responseEntity.ok(responseEntity);
+    public ResponseEntity<Map<String,String>> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
+        return ResponseEntity.ok(Map.of("access_token",loginService.doLogin(loginRequest)));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(signupRequest.getEmail()))) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ResponseEntity("Error: Email is already in use!", HttpStatus.BAD_GATEWAY));
+                    .body("Error: Email is already in use!");
         }
         this.signupService.doSignup(signupRequest);
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);

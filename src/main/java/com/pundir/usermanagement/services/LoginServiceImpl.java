@@ -29,13 +29,9 @@ public class LoginServiceImpl implements LoginService{
     private JwtUtils jwtUtils;
 
     @Override
-    public ResponseEntity<?> doLogin(LoginRequest loginRequest) {
-        try{
-            this.authenticationManager.authenticate(new
-                    UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        } catch (Exception ex){
-        }       UserDetailsImpl userDetails = (UserDetailsImpl) this.userDetailsService.loadUserByUsername(loginRequest.getEmail());
-        String jwt = jwtUtils.generateJwtToken(userDetails);
-        return new ResponseEntity<>(jwt, HttpStatus.OK);
+    public String doLogin(LoginRequest loginRequest) {
+            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            UserDetailsImpl userDetails = (UserDetailsImpl) this.userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        return jwtUtils.generateJwtToken(userDetails);
     }
 }

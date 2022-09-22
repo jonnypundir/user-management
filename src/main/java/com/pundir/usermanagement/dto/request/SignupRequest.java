@@ -1,5 +1,7 @@
 package com.pundir.usermanagement.dto.request;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,24 +13,30 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel
 public class SignupRequest {
+    @ApiModelProperty(example = "Abhishek", required = true)
     @NotBlank
     @Size(min = 3, max = 20)
     private String firstName;
 
+    @ApiModelProperty(example = "Pandey", required = true)
     @NotBlank
     @Size(min = 3, max = 20)
     private String lastName;
 
+    @ApiModelProperty(example = "abc@gmail.com", required = true)
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
 
+    @ApiModelProperty(example = "1234567890", required = true)
     @NotBlank
     @Size(max = 10)
     private Long contact;
 
+    @ApiModelProperty(example = "Abc#123...", required = true)
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;

@@ -22,8 +22,11 @@ spring:
     allow-circular-references: true
     allow-bean-definition-overriding: true
 
-transol.app.jwtSecret: "pundirSecretKey"
-transol.app.jwtExpirationMs: "86400000"
+user:
+  management:
+    issuer: "pundir"
+    jwtExpirationMs: 86400000
+    secretKey : "pundirSecretKey"
 
 
 # spring CORS configuration

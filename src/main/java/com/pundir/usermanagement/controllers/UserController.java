@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,13 +86,16 @@ public class UserController {
                     .badRequest()
                     .body(new ResponseEntity("Error: Email is already in use!", HttpStatus.BAD_GATEWAY));
         }
+        Optional<Role> role = roleRepository.findByName(ERole.ROLE_USER);
+        if(role.isEmpty())
+            throw new RuntimeException("Role does not exits");
         // Create new user's account
         User user = User.builder()
                 .email(signupRequest.getEmail())
                 .contact(signupRequest.getContact())
                 .username(signupRequest.getUsername())
                 .password(encoder.encode(signupRequest.getPassword()))
-                .roles(Set.of(new Role("",ERole.ROLE_USER)))
+                .roles(Set.of(role.get()))
                 .build();
 
         userRepository.save(user);

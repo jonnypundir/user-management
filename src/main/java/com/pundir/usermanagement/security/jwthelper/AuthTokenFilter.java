@@ -1,6 +1,7 @@
 package com.pundir.usermanagement.security.jwthelper;
 
 import com.pundir.usermanagement.security.jwtservices.UserDetailsServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
   private JwtUtils jwtUtils;
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
-
-  private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
-
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
@@ -40,7 +39,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } catch (Exception e) {
-      logger.error("Cannot set user authentication: {}", e);
+      log.error("Cannot set user authentication: {}", e.getMessage());
     }
 
     filterChain.doFilter(request, response);

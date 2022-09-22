@@ -3,7 +3,7 @@ server:
   # Server bind address
   address: "${HTTP_BIND_ADDRESS:0.0.0.0}"
   # Server bind port
-  port: "${HTTP_BIND_PORT:9090}"
+  port: "${HTTP_BIND_PORT:9050}"
 
 ################### SPRING SECURITY CONFIGURATION ##############
 
@@ -22,8 +22,11 @@ spring:
     allow-circular-references: true
     allow-bean-definition-overriding: true
 
-transol.app.jwtSecret: "pundirSecretKey"
-transol.app.jwtExpirationMs: "86400000"
+user:
+  management:
+    issuer: "pundir"
+    jwtExpirationMs: 86400000
+    secretKey : "pundirSecretKey"
 
 
 # spring CORS configuration

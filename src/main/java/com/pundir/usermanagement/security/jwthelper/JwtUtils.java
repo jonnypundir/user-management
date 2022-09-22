@@ -31,6 +31,7 @@ public class JwtUtils {
 	private static final String LAST_NAME = "LastName";
 
 	public String generateJwtToken(UserDetailsImpl userPrincipal) {
+		log.info("generate token by {}", userPrincipal);
 		ZonedDateTime currentTime = ZonedDateTime.now();
 		Claims claims = Jwts.claims().setSubject(userPrincipal.getEmail());
 		claims.put(SCOPES,  userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));

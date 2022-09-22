@@ -28,7 +28,7 @@ public class SignupServiceImpl implements SignupService {
 
     @Override
     public User doSignup(SignupRequest signupRequest) {
-        log.info("signup request.{}",signupRequest);
+        log.info("Signup request.{} ",signupRequest);
         Optional<Role> role = roleRepository.findByName(ERole.ROLE_USER);
         if(role.isEmpty())
             throw new RuntimeException("Role does not exits");

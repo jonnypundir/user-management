@@ -12,22 +12,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 @Data
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-
 	private String username;
 
 	private String lastName;
 
 	private String email;
-
 	@JsonIgnore
 	private String password;
-
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public static UserDetailsImpl build(User user) {
@@ -88,4 +86,5 @@ public class UserDetailsImpl implements UserDetails {
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
 	}
+
 }

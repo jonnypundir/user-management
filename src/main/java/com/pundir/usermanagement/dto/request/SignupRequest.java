@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -32,12 +31,12 @@ public class SignupRequest {
     @Email
     private String email;
 
-    @ApiModelProperty(example = "8487..", required = true)
+    @ApiModelProperty(example = "1234567890", required = true)
     @NotBlank
     @Size(max = 10)
     private Long contact;
 
-    @ApiModelProperty(example = "Abc#123..", required = true)
+    @ApiModelProperty(example = "Abc#123...", required = true)
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;

@@ -29,6 +29,8 @@ public class JwtUtils {
 	private static final String SCOPES = "scopes";
 	private static final String USER_ID = "userId";
 	private static final String ENABLED = "enabled";
+	private static final String FIRST_NAME = "firstName";
+	private static final String LAST_NAME = "LastName";
 
 	public String generateJwtToken(UserDetailsImpl userPrincipal) {
 		ZonedDateTime currentTime = ZonedDateTime.now();
@@ -36,6 +38,8 @@ public class JwtUtils {
 		claims.put(SCOPES,  userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 		claims.put(USER_ID, userPrincipal.getId());
 		claims.put(ENABLED, userPrincipal.isEnabled());
+		claims.put(LAST_NAME, userPrincipal.getLastName());
+		claims.put(FIRST_NAME, userPrincipal.getUsername());
 
 		return Jwts.builder()
 				.setClaims(claims)

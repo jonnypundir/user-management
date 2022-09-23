@@ -1,9 +1,7 @@
 package com.pundir.usermanagement.services;
 
+import com.pundir.usermanagement.dto.UserDetailsDto;
 import com.pundir.usermanagement.dto.request.LoginRequest;
-import com.pundir.usermanagement.security.jwthelper.JwtUtils;
-import com.pundir.usermanagement.security.jwtservices.UserDetailsImpl;
-import com.pundir.usermanagement.security.jwtservices.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class LoginServiceImpl implements LoginService{
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -21,13 +19,13 @@ public class LoginServiceImpl implements LoginService{
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtService jwtService;
 
     @Override
-    public String doLogin(LoginRequest loginRequest) {
-        log.info("Login request.{} ", loginRequest);
+    public String login(LoginRequest loginRequest) {
+        log.info("Login request for user {} ", loginRequest.getEmail());
         this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        UserDetailsImpl userDetails = (UserDetailsImpl) this.userDetailsService.loadUserByUsername(loginRequest.getEmail());
-        return jwtUtils.generateJwtToken(userDetails);
+        UserDetailsDto userDetails = (UserDetailsDto) userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        return jwtService.generateJwtToken(userDetails);
     }
 }

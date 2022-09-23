@@ -1,7 +1,7 @@
 package com.pundir.usermanagement.config;
 
-import com.pundir.usermanagement.security.jwthelper.AuthTokenFilter;
-import com.pundir.usermanagement.security.jwtservices.UserDetailsServiceImpl;
+import com.pundir.usermanagement.security.AuthTokenFilter;
+import com.pundir.usermanagement.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -34,7 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .csrf().disable()
                 .cors().disable()
                 .exceptionHandling().authenticationEntryPoint(this.unauthorizedEntryPoint())
@@ -42,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/**").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .anyRequest()
                 .authenticated();
 
@@ -59,8 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**", "/configuration/**",
                         "/swagger-ui.html", "/webjars/**", "/swagger-ui/index.html",
                         "/swagger.json", "/configuration/ui",
-                        "/v3/api-docs/**", "/v1/users/register",
-                        "/v1/users/**/otp-validate/**", "/v1/users/**/otp-resend/**");
+                        "/v3/api-docs/**", "/v1/user/**");
     }
 
     @Override

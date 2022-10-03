@@ -1,8 +1,10 @@
 package com.pundir.usermanagement.controllers;
 
+import com.pundir.usermanagement.dto.request.AddressRequest;
 import com.pundir.usermanagement.dto.request.LoginRequest;
 import com.pundir.usermanagement.dto.request.SignupRequest;
 import com.pundir.usermanagement.repository.UserRepository;
+import com.pundir.usermanagement.services.AddressRegistrationService;
 import com.pundir.usermanagement.services.AuthService;
 import com.pundir.usermanagement.services.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class UserController {
     @Autowired
     UserRegistrationService userRegistrationService;
 
+    @Autowired
+    AddressRegistrationService addressRegistrationService;
+
     @PostMapping("/auth")
     public ResponseEntity<Map<String,String>> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
         return ResponseEntity.ok(Map.of("access_token", authService.login(loginRequest)));
@@ -43,5 +48,11 @@ public class UserController {
         }
         this.userRegistrationService.register(signupRequest);
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+    }
+
+    @PostMapping("/address")
+    public ResponseEntity<String> address(@Valid @RequestBody AddressRequest addressRequest){
+        this.addressRegistrationService.saveAddress(addressRequest);
+        return new ResponseEntity<>("Address saved in table!", HttpStatus.OK);
     }
 }

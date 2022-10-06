@@ -47,7 +47,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 .roles(Set.of(role.get()))
                 .build();
        user =  userRepository.save(user);
-        log.info("User successfully save {}", user.getId());
+        log.info("User registered successfully {}", user.getId());
         return user;
     }
 
